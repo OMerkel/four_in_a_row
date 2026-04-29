@@ -1,0 +1,1557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project documentation for architecture, engines, SGF, and usage.">
+      
+      
+      
+      
+        <link rel="prev" href="./index.html">
+      
+      
+        <link rel="next" href="./engines.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="./assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.34">
+    
+    
+      
+        <title>Software Architecture - Four in a Row - Four in a Row</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="./assets/stylesheets/modern/main.53a7feaf.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#software-architecture-four-in-a-row" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./index.html" title="Four in a Row" class="md-header__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Four in a Row
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Software Architecture - Four in a Row
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./index.html" title="Four in a Row" class="md-nav__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    Four in a Row
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="software_architecture.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-principle-shared-core-thin-front-ends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Principle: Shared Core, Thin Front-Ends
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Principle: Shared Core, Thin Front-Ends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-to-change-what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where to change what
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-domain-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Domain Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Domain Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gamestate-four_in_a_rowgamepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameState (four_in_a_row/game.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historymanager-four_in_a_rowhistorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HistoryManager (four_in_a_row/history.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sgf-the-smart-game-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SGF - The Smart Game Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computer-ais-the-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computer AIs - The Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Computer AIs - The Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suggest-vs-play-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suggest vs play flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui-usage-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GUI Usage and Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GUI Usage and Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-to-code-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GUI-to-code map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-vs-gui-capability-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI vs GUI Capability Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-usage-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Usage and Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI Usage and Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-to-code-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command-to-code map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_random.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Random
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_minimax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minimax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_negamax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Negamax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_alphabeta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpha-Beta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_mcts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCTS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./sgf.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./docs_freshness.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Freshness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architectural-principle-shared-core-thin-front-ends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architectural Principle: Shared Core, Thin Front-Ends
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architectural Principle: Shared Core, Thin Front-Ends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-to-change-what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where to change what
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-domain-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Domain Model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Domain Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gamestate-four_in_a_rowgamepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameState (four_in_a_row/game.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historymanager-four_in_a_rowhistorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HistoryManager (four_in_a_row/history.py)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sgf-the-smart-game-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SGF - The Smart Game Format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#computer-ais-the-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computer AIs - The Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Computer AIs - The Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suggest-vs-play-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Suggest vs play flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gui-usage-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GUI Usage and Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GUI Usage and Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gui-to-code-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GUI-to-code map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-vs-gui-capability-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI vs GUI Capability Matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-usage-and-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI Usage and Flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI Usage and Flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#command-to-code-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Command-to-code map
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="software-architecture-four-in-a-row">Software Architecture - Four in a Row<a class="headerlink" href="#software-architecture-four-in-a-row" title="Permanent link">&para;</a></h1>
+<p>This document describes the implemented architecture and intended usage.
+Use Zensical to render this markdown documentation.</p>
+<h2 id="goals">Goals<a class="headerlink" href="#goals" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Complete, runnable Python implementation.</li>
+<li>Deterministic game rules for 7x6 Four in a Row.</li>
+<li>Human-vs-human gameplay with AI engines.</li>
+<li>Persist and restore games using SGF.</li>
+<li>Unit tests with high coverage focus.</li>
+</ul>
+<h2 id="module-overview">Module Overview<a class="headerlink" href="#module-overview" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    CLI[CLI&lt;br/&gt;cli.py] --&gt; GAME[GameState&lt;br/&gt;game.py]
+    GUI[GUI&lt;br/&gt;gui.py] --&gt; GAME
+    CLI --&gt; HIST[HistoryManager&lt;br/&gt;history.py]
+    GUI --&gt; HIST
+    CLI --&gt; SGF[SGF I/O&lt;br/&gt;sgf.py]
+    GUI --&gt; SGF
+    CLI --&gt; ENGINES_FACADE[Engine Facade&lt;br/&gt;engines.py]
+    GUI --&gt; ENGINES_FACADE
+    ENGINES_FACADE --&gt; AI_RANDOM[Random&lt;br/&gt;ai_random.py]
+    ENGINES_FACADE --&gt; AI_MINIMAX[MiniMax&lt;br/&gt;ai_minimax.py]
+    ENGINES_FACADE --&gt; AI_NEGAMAX[NegaMax&lt;br/&gt;ai_negamax.py]
+    ENGINES_FACADE --&gt; AI_ALPHABETA[Alpha-Beta&lt;br/&gt;ai_alphabeta.py]
+    ENGINES_FACADE --&gt; AI_MCTS[MCTS + UCB&lt;br/&gt;ai_mcts_ucb.py]
+    AI_RANDOM --&gt; GAME
+    AI_MINIMAX --&gt; GAME
+    AI_NEGAMAX --&gt; GAME
+    AI_ALPHABETA --&gt; GAME
+    AI_MCTS --&gt; GAME
+    HIST --&gt; GAME
+    SGF --&gt; CLI
+    SGF --&gt; GUI</code></pre>
+<h2 id="architectural-principle-shared-core-thin-front-ends">Architectural Principle: Shared Core, Thin Front-Ends<a class="headerlink" href="#architectural-principle-shared-core-thin-front-ends" title="Permanent link">&para;</a></h2>
+<p>The project follows a shared-core architecture:</p>
+<ul>
+<li>Core domain and rules live in <code>game.py</code> and <code>history.py</code>.</li>
+<li>Search behavior lives behind <code>engines.py</code> and the <code>ai_*</code> modules.</li>
+<li>Persistence lives in <code>sgf.py</code>.</li>
+<li><code>cli.py</code> and <code>gui.py</code> are front-ends that orchestrate I/O and presentation.</li>
+</ul>
+<p>This keeps game behavior consistent across terminal and GUI modes and avoids
+duplicating rule logic in multiple entrypoints.</p>
+<p>Practical change-placement rule:</p>
+<ul>
+<li>If a change affects game legality, winner detection, undo/replay, SGF
+    validity, or engine decision logic, implement it in the shared core modules.</li>
+<li>If a change affects command wording, prompts, click handling, rendering, or
+    frontend-specific UX, implement it in the respective front-end (<code>cli.py</code> or
+    <code>gui.py</code>).</li>
+</ul>
+<h3 id="where-to-change-what">Where to change what<a class="headerlink" href="#where-to-change-what" title="Permanent link">&para;</a></h3>
+<p>Quick reference for contributors:</p>
+<table>
+<thead>
+<tr>
+<th>Change type</th>
+<th>File(s) to edit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Game rules or move legality</td>
+<td><code>game.py</code></td>
+</tr>
+<tr>
+<td>Winner / draw detection</td>
+<td><code>game.py</code></td>
+</tr>
+<tr>
+<td>Undo / replay semantics</td>
+<td><code>history.py</code>, then <code>cli.py</code> and/or <code>gui.py</code></td>
+</tr>
+<tr>
+<td>CLI prompt text or command wording</td>
+<td><code>cli.py</code></td>
+</tr>
+<tr>
+<td>Board rendering in terminal</td>
+<td><code>cli.py</code></td>
+</tr>
+<tr>
+<td>Board rendering in GUI</td>
+<td><code>gui.py</code></td>
+</tr>
+<tr>
+<td>Static board evaluation heuristic</td>
+<td><code>game.py</code> → <code>evaluate_state()</code></td>
+</tr>
+<tr>
+<td>New engine algorithm</td>
+<td>new <code>ai_*.py</code> module + register in <code>engines.py</code></td>
+</tr>
+<tr>
+<td>SGF format or field names</td>
+<td><code>sgf.py</code></td>
+</tr>
+<tr>
+<td>Engine dispatch or public API</td>
+<td><code>engines.py</code></td>
+</tr>
+<tr>
+<td>Tests for game rules</td>
+<td><code>tests/test_game.py</code></td>
+</tr>
+<tr>
+<td>Tests for CLI commands</td>
+<td><code>tests/test_cli.py</code></td>
+</tr>
+<tr>
+<td>Tests for engine behavior</td>
+<td><code>tests/test_engine_*.py</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="core-domain-model">Core Domain Model<a class="headerlink" href="#core-domain-model" title="Permanent link">&para;</a></h2>
+<h3 id="gamestate-four_in_a_rowgamepy"><code>GameState</code> (<code>four_in_a_row/game.py</code>)<a class="headerlink" href="#gamestate-four_in_a_rowgamepy" title="Permanent link">&para;</a></h3>
+<p>Responsibilities:</p>
+<ul>
+<li>Owns the board, move stack and current player.</li>
+<li>Validates moves and applies gravity.</li>
+<li>Supports undo of the most recent move.</li>
+<li>Detects winner/draw/terminal conditions.</li>
+<li>Renders board as terminal-friendly text.</li>
+</ul>
+<p>Board representation:</p>
+<ul>
+<li><code>board[row][column]</code>, where row 0 is the bottom row.</li>
+<li>Width = 7, height = 6.</li>
+</ul>
+<p>Core model snapshot:</p>
+<pre class="mermaid"><code>classDiagram
+    class GameState {
+        +board
+        +current_player
+        +move_stack
+        +new(starting_player)
+        +apply_move(column)
+        +undo_move()
+        +winner()
+        +is_draw()
+        +is_terminal()
+        +render()
+    }
+
+    class HistoryManager {
+        +applied
+        +undone
+        +record_move(player, column, row)
+        +can_undo()
+        +can_replay()
+        +undo(state)
+        +replay(state)
+    }
+
+    class MoveRecord {
+        +player
+        +column
+        +row
+    }
+
+    HistoryManager --&gt; MoveRecord
+    HistoryManager ..&gt; GameState : updates and validates</code></pre>
+<h3 id="historymanager-four_in_a_rowhistorypy"><code>HistoryManager</code> (<code>four_in_a_row/history.py</code>)<a class="headerlink" href="#historymanager-four_in_a_rowhistorypy" title="Permanent link">&para;</a></h3>
+<p>Responsibilities:</p>
+<ul>
+<li>Records applied moves with player/column/row metadata.</li>
+<li>Supports <code>undo</code> and <code>replay</code> stacks.</li>
+<li>Verifies replay consistency against game state.</li>
+</ul>
+<p>Undo/replay state transitions during active play:</p>
+<pre class="mermaid"><code>flowchart TD
+    RUN[Running state]
+    UNDONE[Replay available]
+    APPLY[Apply move]
+    UNDO1[Undo move]
+    UNDO2[Undo again]
+    REPLAY[Replay move]
+    NEWMOVE[New move clears replay stack]
+
+    RUN --&gt; APPLY --&gt; RUN
+    RUN --&gt; UNDO1 --&gt; UNDONE
+
+    UNDONE --&gt; UNDO2 --&gt; UNDONE
+    UNDONE --&gt; REPLAY --&gt; RUN
+    UNDONE --&gt; NEWMOVE --&gt; RUN
+</code></pre>
+<p>Finished-state recovery transitions:</p>
+<pre class="mermaid"><code>flowchart TD
+    FIN[Finished state]
+    RUN[Running state]
+    EXIT[Quit]
+    REOPEN[Undo reopens match]
+    RESTORE[Replay restores terminal state]
+    NEWGAME[Start new game]
+    QUIT[Quit command]
+
+    FIN --&gt; REOPEN --&gt; RUN
+    FIN --&gt; RESTORE --&gt; FIN
+    FIN --&gt; NEWGAME --&gt; RUN
+    FIN --&gt; QUIT --&gt; EXIT</code></pre>
+<h2 id="sgf-the-smart-game-format">SGF - The Smart Game Format<a class="headerlink" href="#sgf-the-smart-game-format" title="Permanent link">&para;</a></h2>
+<p>SGF is used as a GameState storage format here. Details are described in
+<a href="sgf.html">sgf.md</a>, including replay-based legality validation during import.
+For how SGF integrates into runtime behavior across front-ends, also see the
+CLI and GUI flow sections below.</p>
+<p>Persistence flow:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant Frontend as CLI or GUI
+    participant SGF as sgf.py
+    participant Game as GameState
+    participant Hist as HistoryManager
+
+    User-&gt;&gt;Frontend: save &lt;file&gt;
+    Frontend-&gt;&gt;Hist: read applied moves
+    Frontend-&gt;&gt;SGF: export_sgf(moves, starting_player)
+    SGF--&gt;&gt;Frontend: SGF text
+    Frontend--&gt;&gt;User: file written
+
+    User-&gt;&gt;Frontend: load &lt;file&gt;
+    Frontend-&gt;&gt;SGF: import_sgf(content)
+    SGF--&gt;&gt;Frontend: starting_player, moves
+    Frontend-&gt;&gt;Game: rebuild by replaying moves
+    Frontend-&gt;&gt;Hist: rebuild applied history
+    Frontend--&gt;&gt;User: game restored</code></pre>
+<h2 id="computer-ais-the-engines">Computer AIs - The Engines<a class="headerlink" href="#computer-ais-the-engines" title="Permanent link">&para;</a></h2>
+<p>Description of the available Computer Players, the Artificial Intelligence and
+algorithms behind the scenes is in <a href="engines.html">engines.md</a>.</p>
+<p>Implementation structure:</p>
+<ul>
+<li><code>four_in_a_row/engines.py</code> provides the stable public API and dispatch.</li>
+<li><code>four_in_a_row/ai_random.py</code> implements random move selection.</li>
+<li><code>four_in_a_row/ai_minimax.py</code> implements depth-limited minimax.</li>
+<li><code>four_in_a_row/ai_negamax.py</code> implements depth-limited negamax.</li>
+<li><code>four_in_a_row/ai_alphabeta.py</code> implements alpha-beta search.</li>
+<li><code>four_in_a_row/ai_mcts_ucb.py</code> implements MCTS with UCB-based selection.</li>
+</ul>
+<h3 id="suggest-vs-play-flow">Suggest vs play flow<a class="headerlink" href="#suggest-vs-play-flow" title="Permanent link">&para;</a></h3>
+<p>Both the CLI and GUI reach engine suggestions through <code>suggest_move()</code>. How the
+result is used differs between <code>suggest</code> and <code>play</code>:</p>
+<pre class="mermaid"><code>sequenceDiagram
+    participant User
+    participant Frontend as CLI or GUI
+    participant Engines as engines.py
+    participant AI as ai_*.py
+    participant Game as GameState
+    participant Hist as HistoryManager
+
+    User-&gt;&gt;Frontend: suggest &lt;engine&gt; [value]
+    Frontend-&gt;&gt;Engines: suggest_move(state, engine, ...)
+    Engines-&gt;&gt;AI: engine_suggestion(state, ...)
+    AI--&gt;&gt;Engines: EngineSuggestion
+    Engines--&gt;&gt;Frontend: EngineSuggestion
+    Frontend--&gt;&gt;User: print move and evaluation (no board change)
+
+    User-&gt;&gt;Frontend: play &lt;engine&gt; [value]
+    Frontend-&gt;&gt;Engines: suggest_move(state, engine, ...)
+    Engines-&gt;&gt;AI: engine_suggestion(state, ...)
+    AI--&gt;&gt;Engines: EngineSuggestion
+    Engines--&gt;&gt;Frontend: EngineSuggestion
+    Frontend-&gt;&gt;Game: apply_move(suggestion.move)
+    Frontend-&gt;&gt;Hist: record_move(player, column, row)
+    Frontend--&gt;&gt;User: board updated and re-rendered</code></pre>
+<p>The engine itself is always read-only with respect to <code>GameState</code>. All cloning
+and mutation for search purposes happens internally in the <code>ai_*</code> modules.</p>
+<h2 id="gui-usage-and-flow">GUI Usage and Flow<a class="headerlink" href="#gui-usage-and-flow" title="Permanent link">&para;</a></h2>
+<p>Implemented in <code>four_in_a_row/gui.py</code> and started primarily via
+<code>python -m four_in_a_row.gui</code>.</p>
+<p>The GUI is a matplotlib-driven front-end over the same domain model and engine
+facade used by the CLI.</p>
+<p>Runtime flow:</p>
+<ol>
+<li>Resolve player configuration for both sides (human or engine).</li>
+<li>Create board figure and status area.</li>
+<li>Render current game state from <code>GameState</code>.</li>
+<li>Process either:<ul>
+<li>human click input (column selection), or</li>
+<li>AI turn execution through <code>suggest_move()</code>.</li>
+</ul>
+</li>
+<li>Record applied moves through <code>HistoryManager</code>.</li>
+<li>On terminal game state, display result and run post-game prompt
+    (<code>help</code>, <code>save</code>, <code>new</code>, <code>quit</code>).</li>
+</ol>
+<h3 id="gui-to-code-map">GUI-to-code map<a class="headerlink" href="#gui-to-code-map" title="Permanent link">&para;</a></h3>
+<ul>
+<li>GUI orchestration class: <code>FourInARowGui</code> in <code>four_in_a_row/gui.py</code>.</li>
+<li>Board rendering/status updates: <code>_create_plot()</code> and <code>_render_board()</code>.</li>
+<li>Winning-line detection/highlight: <code>_winning_cells()</code>.</li>
+<li>Human interaction: <code>_on_click()</code>.</li>
+<li>AI turn loop: <code>_play_ai_turn()</code> and <code>_handle_ai_until_human_turn()</code>.</li>
+<li>Post-game command loop and SGF export: <code>_handle_post_game_prompt_if_needed()</code>.</li>
+</ul>
+<h2 id="cli-vs-gui-capability-matrix">CLI vs GUI Capability Matrix<a class="headerlink" href="#cli-vs-gui-capability-matrix" title="Permanent link">&para;</a></h2>
+<p>This quick matrix helps contributors decide whether a behavior is shared-core
+logic or frontend-specific behavior.</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>CLI (<code>cli.py</code>)</th>
+<th>GUI (<code>gui.py</code>)</th>
+<th>Shared core module(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Start app</td>
+<td><code>python -m four_in_a_row</code></td>
+<td><code>python -m four_in_a_row.gui</code></td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Human move input</td>
+<td>text commands (<code>1..7</code>, <code>move</code>)</td>
+<td>mouse click on column</td>
+<td><code>game.py</code>, <code>history.py</code></td>
+</tr>
+<tr>
+<td>Single-step AI advice</td>
+<td><code>suggest &lt;engine&gt; [value]</code></td>
+<td>internal AI helper calls</td>
+<td><code>engines.py</code>, <code>ai_*.py</code></td>
+</tr>
+<tr>
+<td>Single-step AI play</td>
+<td><code>play &lt;engine&gt; [value]</code></td>
+<td>internal AI helper calls</td>
+<td><code>engines.py</code>, <code>ai_*.py</code></td>
+</tr>
+<tr>
+<td>Continuous engine-vs-engine progression</td>
+<td>not provided in CLI loop</td>
+<td>supported (autoplay loop)</td>
+<td><code>gui.py</code> orchestration + <code>engines.py</code></td>
+</tr>
+<tr>
+<td>Undo/replay during running match</td>
+<td>explicit commands (<code>undo</code>, <code>replay</code>)</td>
+<td>not exposed as click command</td>
+<td><code>history.py</code></td>
+</tr>
+<tr>
+<td>Save/load from command loop</td>
+<td><code>save</code>, <code>load</code> during active loop</td>
+<td>post-game <code>save</code> command</td>
+<td><code>sgf.py</code></td>
+</tr>
+<tr>
+<td>Post-game control surface</td>
+<td>text prompt (<code>new</code>, <code>quit</code>, etc.)</td>
+<td>text prompt after GUI match (<code>help</code>, <code>save</code>, <code>new</code>, <code>quit</code>)</td>
+<td>frontend-specific</td>
+</tr>
+<tr>
+<td>Board rendering</td>
+<td>terminal text board</td>
+<td>matplotlib board and status text</td>
+<td>frontend-specific</td>
+</tr>
+<tr>
+<td>Win-line visual highlight</td>
+<td>no</td>
+<td>yes</td>
+<td><code>gui.py</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cli-usage-and-flow">CLI Usage and Flow<a class="headerlink" href="#cli-usage-and-flow" title="Permanent link">&para;</a></h2>
+<p>Implemented in <code>four_in_a_row/cli.py</code> and started primarily via
+<code>python -m four_in_a_row</code> through <code>four_in_a_row/__main__.py</code>.
+<code>main.py</code> remains as a compatibility wrapper.</p>
+<p>Runtime flow:</p>
+<ol>
+<li>Start new game and print help.</li>
+<li>
+<p>Loop:</p>
+<ul>
+<li>display board,</li>
+<li>check terminal condition,</li>
+<li>read command,</li>
+<li>execute move/undo/replay/suggest/save/load.</li>
+</ul>
+</li>
+</ol>
+<p>By default both players are human-controlled. The CLI can also delegate a
+single move to an engine through <code>play &lt;engine&gt;</code>, while <code>suggest &lt;engine&gt;</code>
+remains the non-mutating AI suggestion path.</p>
+<p>Prompt behavior:</p>
+<ul>
+<li>The running CLI prompt includes a compact move counter.</li>
+<li><code>#n</code> means <code>n</code> moves are currently applied.</li>
+<li><code>#current/total</code> is shown when replay is possible, so contributors can see
+    both the active move count and the full recorded move count.</li>
+<li><code>undo</code> and <code>replay</code> remain available after a terminal game state in the CLI.
+    An <code>undo</code> from a finished game returns the match to a running state.</li>
+</ul>
+<p>CLI command flow:</p>
+<pre class="mermaid"><code>flowchart TD
+    START[Start CLI] --&gt; INIT[Create GameState and HistoryManager]
+    INIT --&gt; RENDER[Render board]
+    RENDER --&gt; CHECK{Winner or draw?}
+
+    CHECK -- no --&gt; PROMPT[Prompt user]
+    CHECK -- yes --&gt; FINISHED[Show result and finished prompt]
+
+    PROMPT --&gt; CMD{Command}
+    FINISHED --&gt; CMD
+
+    CMD -- move or 1..7 --&gt; APPLY[Apply move and record history]
+    CMD -- undo --&gt; UNDO[Undo moves]
+    CMD -- replay --&gt; REPLAY[Replay moves]
+    CMD -- suggest --&gt; SUGGEST[Compute engine suggestion]
+    CMD -- play --&gt; PLAY[Compute suggestion and apply move]
+    CMD -- save --&gt; SAVE[Export SGF]
+    CMD -- load --&gt; LOAD[Import SGF and rebuild state]
+    CMD -- new --&gt; NEW[Reset state and history]
+    CMD -- quit --&gt; EXIT[Exit CLI]
+
+    APPLY --&gt; RENDER
+    UNDO --&gt; RENDER
+    REPLAY --&gt; RENDER
+    SUGGEST --&gt; RENDER
+    PLAY --&gt; RENDER
+    SAVE --&gt; RENDER
+    LOAD --&gt; RENDER
+    NEW --&gt; RENDER</code></pre>
+<h3 id="command-to-code-map">Command-to-code map<a class="headerlink" href="#command-to-code-map" title="Permanent link">&para;</a></h3>
+<p>The CLI command handling lives in <code>run_cli()</code> in <code>four_in_a_row/cli.py</code>.</p>
+<ul>
+<li>Move commands (<code>1..7</code>, <code>move</code>) call <code>GameState.apply_move()</code> and then
+    <code>HistoryManager.record_move()</code>.</li>
+<li>Suggestion commands (<code>suggest</code>, <code>play</code>) call <code>suggest_move()</code> from
+    <code>four_in_a_row/engines.py</code>.</li>
+<li>Suggestion output formatting uses <code>_print_suggestion()</code> in
+    <code>four_in_a_row/cli.py</code>.</li>
+<li>CLI suggestion output converts internal 0-based engine columns into human
+    facing columns <code>1..7</code>.</li>
+<li>Persistence commands (<code>save</code>, <code>load</code>) call <code>export_sgf()</code> and <code>import_sgf()</code>.</li>
+<li>Undo/replay commands call <code>HistoryManager.undo()</code> and <code>HistoryManager.replay()</code>.</li>
+</ul>
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<p>Tests are in <code>tests/</code> and cover:</p>
+<ul>
+<li>game rules and winner detection,</li>
+<li>history undo/replay behavior,</li>
+<li>SGF roundtrip and validation,</li>
+<li>engine suggestion contract,</li>
+<li>CLI interaction and command handling,</li>
+<li>GUI rendering and interaction branches,</li>
+<li>GUI post-game command handling and entrypoints.</li>
+</ul>
+<p>GUI tests are organized semantically in <code>tests/gui/</code>:</p>
+<ul>
+<li><code>test_gui_config.py</code></li>
+<li><code>test_gui_rendering.py</code></li>
+<li><code>test_gui_ai_flow.py</code></li>
+<li><code>test_gui_click_interaction.py</code></li>
+<li><code>test_gui_post_game_prompt.py</code></li>
+<li><code>test_gui_entrypoints.py</code></li>
+</ul>
+<p><code>pytest-cov</code> is configured in <code>pyproject.toml</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":".","features":["navigation.sections","navigation.path","navigation.top","toc.follow"],"search":"./assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="./assets/javascripts/bundle.9f55f5b1.min.js"></script>
+      
+    
+  </body>
+</html>

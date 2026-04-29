@@ -1,0 +1,1125 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project documentation for architecture, engines, SGF, and usage.">
+      
+      
+      
+      
+      
+        <link rel="next" href="./software_architecture.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="./assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.34">
+    
+    
+      
+        <title>Four in a Row Documentation - Four in a Row</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="./assets/stylesheets/modern/main.53a7feaf.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#four-in-a-row-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Four in a Row" class="md-header__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Four in a Row
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Four in a Row Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Four in a Row" class="md-nav__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    Four in a Row
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-documentation-covers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this documentation covers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation map
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#software-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artificial-intelligence-the-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Artificial Intelligence - The Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Artificial Intelligence - The Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-engine-deep-dives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-engine deep-dives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sgf-the-smart-game-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SGF - The Smart Game Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-freshness-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Freshness Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-usage-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical usage flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommended-reading-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended reading order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rendering-with-zensical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rendering with Zensical
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./software_architecture.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_random.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Random
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_minimax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minimax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_negamax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Negamax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_alphabeta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpha-Beta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_mcts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCTS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./sgf.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./docs_freshness.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Freshness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-documentation-covers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this documentation covers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation map
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Documentation map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#software-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artificial-intelligence-the-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Artificial Intelligence - The Engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Artificial Intelligence - The Engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per-engine-deep-dives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-engine deep-dives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sgf-the-smart-game-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SGF - The Smart Game Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation-freshness-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Freshness Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-source-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project source map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#typical-usage-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Typical usage flow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommended-reading-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommended reading order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rendering-with-zensical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rendering with Zensical
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="four-in-a-row-documentation">Four in a Row Documentation<a class="headerlink" href="#four-in-a-row-documentation" title="Permanent link">&para;</a></h1>
+<p>Welcome to the project documentation for <strong>Four in a Row</strong>.</p>
+<p>This folder is the source for the rendered documentation site and is designed to
+work well both in the repository and when rendered with Zensical into <code>./site</code>.</p>
+<p>Documentation source of truth lives in <code>./doc</code>. Update these files first, then
+rebuild the generated site output in <code>./site</code>.</p>
+<h2 id="what-this-documentation-covers">What this documentation covers<a class="headerlink" href="#what-this-documentation-covers" title="Permanent link">&para;</a></h2>
+<p>The documentation focuses on the implemented Python codebase:</p>
+<ul>
+<li>terminal gameplay and command flow</li>
+<li>graphical gameplay and event flow</li>
+<li>the internal game model and history tracking</li>
+<li>AI engines for move suggestions</li>
+<li>SGF import and export for persistence</li>
+</ul>
+<h2 id="documentation-map">Documentation map<a class="headerlink" href="#documentation-map" title="Permanent link">&para;</a></h2>
+<h3 id="software-architecture"><a href="software_architecture.html">Software Architecture</a><a class="headerlink" href="#software-architecture" title="Permanent link">&para;</a></h3>
+<p>Start here for the high-level system overview.</p>
+<p>Topics include:</p>
+<ul>
+<li>project goals</li>
+<li>module responsibilities</li>
+<li>runtime flow through CLI and GUI</li>
+<li>domain model responsibilities</li>
+<li>testing strategy</li>
+</ul>
+<p>For the GUI-specific architecture path, see the
+<a href="software_architecture.html#gui-usage-and-flow">GUI Usage and Flow section</a>.</p>
+<h3 id="artificial-intelligence-the-engines"><a href="engines.html">Artificial Intelligence - The Engines</a><a class="headerlink" href="#artificial-intelligence-the-engines" title="Permanent link">&para;</a></h3>
+<p>Read this page for the AI engine layer.</p>
+<p>Topics include:</p>
+<ul>
+<li>available engines</li>
+<li>the suggestion contract</li>
+<li>evaluation semantics</li>
+<li>search strategy overview</li>
+</ul>
+<p>Looking for API import examples? See the
+<a href="engines.html#import-patterns">Import patterns section</a>.</p>
+<h4 id="per-engine-deep-dives">Per-engine deep-dives<a class="headerlink" href="#per-engine-deep-dives" title="Permanent link">&para;</a></h4>
+<p>Each engine has a dedicated page with search behavior, diagrams, and tuning guidance:</p>
+<ul>
+<li><a href="engine_random.html">Random engine</a> — instant, stochastic baseline</li>
+<li><a href="engine_minimax.html">Minimax engine</a> — exhaustive depth-limited tree search</li>
+<li><a href="engine_negamax.html">Negamax engine</a> — minimax-equivalent with score negation</li>
+<li><a href="engine_alphabeta.html">Alpha-Beta engine</a> — minimax with branch pruning</li>
+<li><a href="engine_mcts.html">MCTS engine</a> — UCB-guided sampling with exploration tuning</li>
+</ul>
+<h3 id="sgf-the-smart-game-format"><a href="sgf.html">SGF - The Smart Game Format</a><a class="headerlink" href="#sgf-the-smart-game-format" title="Permanent link">&para;</a></h3>
+<p>Read this page for persistence and interchange.</p>
+<p>Topics include:</p>
+<ul>
+<li>why SGF is used in this project</li>
+<li>how game data is stored</li>
+<li>import and export behavior</li>
+<li>coordinate mapping and validation notes</li>
+</ul>
+<h3 id="documentation-freshness-checklist"><a href="docs_freshness.html">Documentation Freshness Checklist</a><a class="headerlink" href="#documentation-freshness-checklist" title="Permanent link">&para;</a></h3>
+<p>Use this page before merging changes that affect behavior or user-facing docs.</p>
+<p>Topics include:</p>
+<ul>
+<li>what to update when CLI, GUI, engine, or SGF behavior changes</li>
+<li>which tests to run as docs-backed validation</li>
+<li>which docs build command verifies rendering</li>
+</ul>
+<h2 id="project-source-map">Project source map<a class="headerlink" href="#project-source-map" title="Permanent link">&para;</a></h2>
+<p>The main implementation lives in <code>four_in_a_row/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>four_in_a_row/__main__.py</code></td>
+<td>Primary module entry point for <code>python -m four_in_a_row</code></td>
+</tr>
+<tr>
+<td><code>main.py</code></td>
+<td>Compatibility wrapper entry point</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/cli.py</code></td>
+<td>Interactive terminal loop and commands</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/gui.py</code></td>
+<td>Graphical UI loop and click-driven interaction</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/game.py</code></td>
+<td>Board state, rules, move application and winner detection</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/history.py</code></td>
+<td>Undo and replay management</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/engines.py</code></td>
+<td>Stable engine façade and dispatch API</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/ai_random.py</code></td>
+<td>Random AI engine</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/ai_minimax.py</code></td>
+<td>Minimax AI engine</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/ai_negamax.py</code></td>
+<td>Negamax AI engine</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/ai_alphabeta.py</code></td>
+<td>Alpha-beta AI engine</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/ai_mcts_ucb.py</code></td>
+<td>MCTS + UCB AI engine</td>
+</tr>
+<tr>
+<td><code>four_in_a_row/sgf.py</code></td>
+<td>SGF import and export</td>
+</tr>
+</tbody>
+</table>
+<h2 id="typical-usage-flow">Typical usage flow<a class="headerlink" href="#typical-usage-flow" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Start the program.</li>
+<li>Choose CLI or GUI interaction.</li>
+<li>Play moves interactively.</li>
+<li>Ask an engine for a suggested move or run engine turns.</li>
+<li>Undo or replay moves if needed.</li>
+<li>Save or load a game as SGF.</li>
+</ol>
+<p>Note: <code>undo</code> and <code>replay</code> are CLI command-loop features. The GUI focuses on
+click-driven play and post-game commands.</p>
+<h2 id="recommended-reading-order">Recommended reading order<a class="headerlink" href="#recommended-reading-order" title="Permanent link">&para;</a></h2>
+<p>If you are new to the project, read the pages in this order:</p>
+<ol>
+<li>this page</li>
+<li><a href="software_architecture.html">Software Architecture</a></li>
+<li><a href="engines.html">Artificial Intelligence - The Engines</a></li>
+<li><a href="sgf.html">SGF - The Smart Game Format</a></li>
+<li><a href="docs_freshness.html">Documentation Freshness Checklist</a></li>
+</ol>
+<h2 id="rendering-with-zensical">Rendering with Zensical<a class="headerlink" href="#rendering-with-zensical" title="Permanent link">&para;</a></h2>
+<p>The documentation source lives in <code>./doc</code> and is configured to render into <code>./site</code>.</p>
+<p>Typical commands:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">uv</span> <span class="n">run</span> <span class="n">zensical</span> <span class="n">build</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">uv</span> <span class="n">run</span> <span class="n">zensical</span> <span class="n">serve</span>
+</span></code></pre></div>
+<p>After building, open the generated files in <code>./site</code> or serve them locally.</p>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>This project is licensed under the terms in <a href="../LICENSE">../LICENSE</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":".","features":["navigation.sections","navigation.path","navigation.top","toc.follow"],"search":"./assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="./assets/javascripts/bundle.9f55f5b1.min.js"></script>
+      
+    
+  </body>
+</html>

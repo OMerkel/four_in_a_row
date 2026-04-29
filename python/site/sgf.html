@@ -1,0 +1,1283 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project documentation for architecture, engines, SGF, and usage.">
+      
+      
+      
+      
+        <link rel="prev" href="./engine_mcts.html">
+      
+      
+        <link rel="next" href="./docs_freshness.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="./assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.34">
+    
+    
+      
+        <title>SGF - The Smart Game Format - Four in a Row</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="./assets/stylesheets/modern/main.53a7feaf.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sgf-the-smart-game-format" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./index.html" title="Four in a Row" class="md-header__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Four in a Row
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SGF - The Smart Game Format
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./index.html" title="Four in a Row" class="md-nav__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    Four in a Row
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./software_architecture.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engines.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_random.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Random
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_minimax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minimax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_negamax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Negamax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_alphabeta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpha-Beta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_mcts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCTS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGF
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="sgf.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-in-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose in this project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Export format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-properties-currently-written" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root properties currently written
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move encoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Column mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import behavior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Import behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#board-size-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board size validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-player-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting player handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invalid-move-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invalid move order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replay-based-legality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replay-based legality validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-rows-are-not-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why rows are not stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-history-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the history system
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test coverage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-scope-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current scope and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./docs_freshness.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Freshness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose-in-this-project" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose in this project
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export format
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Export format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#root-properties-currently-written" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Root properties currently written
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move encoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Column mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import behavior
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Import behavior">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#board-size-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board size validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-player-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting player handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invalid-move-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invalid move order
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replay-based-legality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replay-based legality validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-rows-are-not-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why rows are not stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-the-history-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to the history system
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-coverage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test coverage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-scope-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current scope and limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="sgf-the-smart-game-format">SGF - The Smart Game Format<a class="headerlink" href="#sgf-the-smart-game-format" title="Permanent link">&para;</a></h1>
+<p>This page documents how the project stores and restores games using SGF.</p>
+<p>For architectural context and module boundaries, see
+<a href="software_architecture.html">software_architecture.md</a>.</p>
+<h2 id="purpose-in-this-project">Purpose in this project<a class="headerlink" href="#purpose-in-this-project" title="Permanent link">&para;</a></h2>
+<p>SGF is used as a compact, text-based persistence format for Four in a Row game
+history.</p>
+<p>In this codebase it supports two practical goals:</p>
+<ul>
+<li>saving a played game to disk</li>
+<li>loading a saved move sequence back into the program</li>
+</ul>
+<p>The implementation lives in <code>four_in_a_row/sgf.py</code>.</p>
+<h2 id="what-is-stored">What is stored<a class="headerlink" href="#what-is-stored" title="Permanent link">&para;</a></h2>
+<p>The SGF support in this project stores the game as:</p>
+<ul>
+<li>root metadata describing the game and board</li>
+<li>a starting player indicator</li>
+<li>a linear sequence of move nodes</li>
+</ul>
+<p>This is intentionally focused on the needs of the current application. It is not
+trying to model every SGF feature or every possible variation tree.</p>
+<h2 id="export-format">Export format<a class="headerlink" href="#export-format" title="Permanent link">&para;</a></h2>
+<p><code>export_sgf(move_columns, starting_player=PLAYER_ONE)</code> serializes a move list to
+SGF text.</p>
+<h3 id="root-properties-currently-written">Root properties currently written<a class="headerlink" href="#root-properties-currently-written" title="Permanent link">&para;</a></h3>
+<p>The exporter writes a root node containing these properties:</p>
+<ul>
+<li><code>GM[41]</code></li>
+<li><code>FF[4]</code></li>
+<li><code>CA[UTF-8]</code></li>
+<li><code>AP[four-in-a-row:1.0]</code></li>
+<li><code>SZ[7:6]</code></li>
+<li><code>PL[B]</code> or <code>PL[W]</code></li>
+</ul>
+<p>The generated content is wrapped in a single SGF game tree and ends with a final
+newline.</p>
+<h3 id="move-encoding">Move encoding<a class="headerlink" href="#move-encoding" title="Permanent link">&para;</a></h3>
+<p>Each move is written as one SGF node:</p>
+<ul>
+<li><code>;B[x]</code> for Player 1</li>
+<li><code>;W[x]</code> for Player 2</li>
+</ul>
+<p>The project stores only the <strong>column</strong>, not the row. This matches the game rules,
+because the row is determined automatically by gravity when the move is replayed.</p>
+<h3 id="column-mapping">Column mapping<a class="headerlink" href="#column-mapping" title="Permanent link">&para;</a></h3>
+<p>Columns are encoded as letters:</p>
+<ul>
+<li><code>a</code> -&gt; column <code>0</code></li>
+<li><code>b</code> -&gt; column <code>1</code></li>
+<li>...</li>
+<li><code>g</code> -&gt; column <code>6</code></li>
+</ul>
+<p>The helper <code>_column_to_sgf()</code> validates that exported columns stay within the
+legal board width.</p>
+<h2 id="import-behavior">Import behavior<a class="headerlink" href="#import-behavior" title="Permanent link">&para;</a></h2>
+<p><code>import_sgf(content)</code> parses SGF text and returns:</p>
+<ul>
+<li>the starting player</li>
+<li>the ordered list of move columns</li>
+</ul>
+<p>The parser is intentionally strict in a few important places so that invalid or
+incompatible data fails early.</p>
+<h3 id="board-size-validation">Board size validation<a class="headerlink" href="#board-size-validation" title="Permanent link">&para;</a></h3>
+<p>The importer requires <code>SZ[7:6]</code> to be present.</p>
+<p>If not, it raises <code>SgfError</code> with an unsupported board size message.</p>
+<p>This guarantees that imported files match the fixed board dimensions used by the
+game implementation.</p>
+<h3 id="starting-player-handling">Starting player handling<a class="headerlink" href="#starting-player-handling" title="Permanent link">&para;</a></h3>
+<p>The parser looks for <code>PL[B]</code> or <code>PL[W]</code>.</p>
+<ul>
+<li>if present, it sets the starting player accordingly</li>
+<li>if missing, it defaults to Player 1</li>
+</ul>
+<h3 id="move-parsing">Move parsing<a class="headerlink" href="#move-parsing" title="Permanent link">&para;</a></h3>
+<p>Move nodes are extracted with a regex matching entries of the form:</p>
+<ul>
+<li><code>;B[a]</code></li>
+<li><code>;W[d]</code></li>
+</ul>
+<p>For each parsed node, the importer:</p>
+<ol>
+<li>checks that the move belongs to the player whose turn is expected</li>
+<li>converts the SGF coordinate into a 0-based column index</li>
+<li>appends the column to the move list</li>
+<li>flips the expected player for the next move</li>
+</ol>
+<h2 id="validation-rules">Validation rules<a class="headerlink" href="#validation-rules" title="Permanent link">&para;</a></h2>
+<p>The SGF layer raises <code>SgfError</code>, a specialized <code>ValueError</code>, for malformed or
+unsupported input.</p>
+<p>Current validation includes:</p>
+<ul>
+<li>invalid export starting player</li>
+<li>out-of-range export column</li>
+<li>unsupported board size</li>
+<li>invalid move order</li>
+<li>out-of-range imported column</li>
+<li>replay-based legality validation of the full move sequence</li>
+</ul>
+<h3 id="invalid-move-order">Invalid move order<a class="headerlink" href="#invalid-move-order" title="Permanent link">&para;</a></h3>
+<p>If the SGF content starts from <code>PL[B]</code>, the first move must be by <code>B</code>.</p>
+<p>Likewise, the importer expects strict alternation between players. If a move node
+breaks that order, import fails immediately.</p>
+<h3 id="replay-based-legality-validation">Replay-based legality validation<a class="headerlink" href="#replay-based-legality-validation" title="Permanent link">&para;</a></h3>
+<p>After parsing the move list, the importer rebuilds the game by replaying every
+move on a fresh <code>GameState</code>.</p>
+<p>This catches SGF files that are syntactically valid but impossible to play on a
+real board. For example, import now fails if the move sequence:</p>
+<ul>
+<li>overfills a column</li>
+<li>uses an otherwise illegal move while reconstructing the position</li>
+</ul>
+<p>In those cases, <code>import_sgf()</code> raises <code>SgfError</code> instead of deferring the
+failure until a later load or rebuild step.</p>
+<h2 id="example-structure">Example structure<a class="headerlink" href="#example-structure" title="Permanent link">&para;</a></h2>
+<p>A short game might look conceptually like this:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>(;GM[41]FF[4]CA[UTF-8]AP[four-in-a-row:1.0]SZ[7:6]PL[B];B[a];W[b];B[c])
+</span></code></pre></div>
+<p>This means:</p>
+<ul>
+<li>Four in a Row board size <code>7x6</code></li>
+<li>Player 1 starts</li>
+<li>moves are columns <code>0</code>, <code>1</code>, <code>2</code></li>
+</ul>
+<h2 id="why-rows-are-not-stored">Why rows are not stored<a class="headerlink" href="#why-rows-are-not-stored" title="Permanent link">&para;</a></h2>
+<p>Connect Four style games do not need explicit row coordinates when the move
+history is replayed in order.</p>
+<p>Given the column sequence and the starting player:</p>
+<ul>
+<li>move order is deterministic</li>
+<li>gravity determines the row automatically</li>
+<li>the board can be reconstructed exactly</li>
+</ul>
+<p>This keeps the exported data simple while still allowing faithful replay.</p>
+<h2 id="relationship-to-the-history-system">Relationship to the history system<a class="headerlink" href="#relationship-to-the-history-system" title="Permanent link">&para;</a></h2>
+<p>The SGF module stores and restores the move sequence, while the history layer is
+responsible for in-memory undo and replay behavior during a running session.</p>
+<p>Together they provide:</p>
+<ul>
+<li>short-term interaction via undo and replay</li>
+<li>long-term persistence via save and load</li>
+</ul>
+<h2 id="test-coverage">Test coverage<a class="headerlink" href="#test-coverage" title="Permanent link">&para;</a></h2>
+<p>The tests currently verify that:</p>
+<ul>
+<li>SGF export and import round-trip correctly</li>
+<li>invalid board sizes are rejected</li>
+<li>invalid player order is rejected</li>
+<li>invalid export arguments are rejected</li>
+<li>out-of-range imported columns are rejected</li>
+<li>unplayable parsed move sequences are rejected during replay validation</li>
+</ul>
+<p>These tests help ensure the format remains stable as the project evolves.</p>
+<h2 id="current-scope-and-limitations">Current scope and limitations<a class="headerlink" href="#current-scope-and-limitations" title="Permanent link">&para;</a></h2>
+<p>The implementation is intentionally small and focused.</p>
+<p>It currently supports:</p>
+<ul>
+<li>a single linear move sequence</li>
+<li>one fixed board size: <code>7x6</code></li>
+<li>column-based move encoding only</li>
+</ul>
+<p>It does not currently attempt to support:</p>
+<ul>
+<li>SGF variations and branches</li>
+<li>comments, annotations or analysis markup</li>
+<li>alternate board sizes</li>
+<li>richer metadata beyond the written root properties</li>
+</ul>
+<p>That narrow scope is appropriate for the current CLI game and keeps the parser
+easy to reason about.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":".","features":["navigation.sections","navigation.path","navigation.top","toc.follow"],"search":"./assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="./assets/javascripts/bundle.9f55f5b1.min.js"></script>
+      
+    
+  </body>
+</html>

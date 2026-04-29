@@ -1,10 +1,25 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+# Node.js dependencies and package manager caches
+**/node_modules/
+**/.npm/
+**/.npmrc
+
+# JavaScript test artifacts
+**/playwright-report/
+**/test-results/
+**/coverage/
+
+# Python and general tool caches
+**/.cache/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/__pycache__/
 
 # Virtual environments
-.venv
+**/.venv/
+
+# Editor and OS files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

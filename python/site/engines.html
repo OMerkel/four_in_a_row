@@ -1,0 +1,1541 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project documentation for architecture, engines, SGF, and usage.">
+      
+      
+      
+      
+        <link rel="prev" href="./software_architecture.html">
+      
+      
+        <link rel="next" href="./engine_random.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="./assets/images/favicon.png">
+      <meta name="generator" content="zensical-0.0.34">
+    
+    
+      
+        <title>Artificial Intelligence - The Engines - Four in a Row</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="./assets/stylesheets/modern/main.53a7feaf.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,a=__md_scope)=>JSON.parse(t.getItem(a.pathname+"."+e)),__md_set=(e,t,a=localStorage,_=__md_scope)=>{try{a.setItem(_.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#artificial-intelligence-the-engines" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="./index.html" title="Four in a Row" class="md-header__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Four in a Row
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Artificial Intelligence - The Engines
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="./index.html" title="Four in a Row" class="md-nav__button md-logo" aria-label="Four in a Row" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-book-open" viewBox="0 0 24 24"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+
+    </a>
+    Four in a Row
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./software_architecture.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engines
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="engines.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-engines-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the engines live
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engine-comparison-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine comparison at a glance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defaults-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defaults at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engine contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-board-evaluation-evaluate_state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static board evaluation: evaluate_state()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static board evaluation: evaluate_state()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-heuristic-actually-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the heuristic actually measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-center-matters-more-than-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why center matters more than edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-matters-for-engine-quality-and-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters for engine quality and speed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-mcts-differs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How MCTS differs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch entry point
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-engine-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-engine details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determinism-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determinism and testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rough-performance-rules-of-thumb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rough performance rules of thumb
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-facing-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-facing interpretation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine Details
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Engine Details
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_random.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Random
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_minimax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minimax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_negamax.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Negamax
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_alphabeta.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpha-Beta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./engine_mcts.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCTS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./sgf.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SGF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./docs_freshness.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docs Freshness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-engines-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the engines live
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-engines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available engines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available engines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#engine-comparison-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine comparison at a glance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defaults-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Defaults at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine contract
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Engine contract">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evaluation-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evaluation semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#static-board-evaluation-evaluate_state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Static board evaluation: evaluate_state()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Static board evaluation: evaluate_state()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-heuristic-actually-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the heuristic actually measures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-center-matters-more-than-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why center matters more than edges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-matters-for-engine-quality-and-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters for engine quality and speed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-mcts-differs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How MCTS differs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatch entry point
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#engine-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Engine defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-engine-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-engine details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determinism-and-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determinism and testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rough-performance-rules-of-thumb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rough performance rules of thumb
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-facing-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-facing interpretation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+<h1 id="artificial-intelligence-the-engines">Artificial Intelligence - The Engines<a class="headerlink" href="#artificial-intelligence-the-engines" title="Permanent link">&para;</a></h1>
+<p>This page documents the move suggestion engines implemented in the project.</p>
+<p>Important design choice: the CLI game loop remains human-centric. In the CLI,
+engines can either analyze the current position via <code>suggest &lt;engine&gt;</code> or apply
+their proposed move via <code>play &lt;engine&gt;</code>, but there is no long-running
+engine-vs-engine mode in CLI.</p>
+<p>The GUI (<code>four_in_a_row/gui.py</code>) additionally supports automated engine-vs-
+engine progression.</p>
+<h2 id="where-the-engines-live">Where the engines live<a class="headerlink" href="#where-the-engines-live" title="Permanent link">&para;</a></h2>
+<p>The engine implementation is split across dedicated modules:</p>
+<ul>
+<li><code>four_in_a_row/ai_random.py</code></li>
+<li><code>four_in_a_row/ai_minimax.py</code></li>
+<li><code>four_in_a_row/ai_negamax.py</code></li>
+<li><code>four_in_a_row/ai_alphabeta.py</code></li>
+<li><code>four_in_a_row/ai_mcts_ucb.py</code></li>
+</ul>
+<p>The file <code>four_in_a_row/engines.py</code> remains as a stable façade that exports the
+public <code>EngineSuggestion</code> type plus dispatcher and convenience functions.</p>
+<p>The engine layer depends on:</p>
+<ul>
+<li><code>GameState</code> from <code>four_in_a_row/game.py</code></li>
+<li>position evaluation helpers such as <code>evaluate_state()</code></li>
+<li>terminal result scoring via <code>terminal_score()</code></li>
+</ul>
+<h2 id="available-engines">Available engines<a class="headerlink" href="#available-engines" title="Permanent link">&para;</a></h2>
+<p>The project currently includes five engine strategies:</p>
+<ul>
+<li><strong>Random</strong>: picks a legal move uniformly at random</li>
+<li><strong>Minimax</strong>: depth-limited full game tree search</li>
+<li><strong>Negamax</strong>: minimax-equivalent search using score negation per ply</li>
+<li><strong>Alpha-Beta</strong>: minimax with pruning to skip dominated branches</li>
+<li><strong>MCTS</strong>: Monte Carlo Tree Search with UCB-based child selection</li>
+</ul>
+<h3 id="engine-comparison-at-a-glance">Engine comparison at a glance<a class="headerlink" href="#engine-comparison-at-a-glance" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Engine</th>
+<th>Deterministic</th>
+<th>Speed (relative)</th>
+<th>PV depth</th>
+<th>Uses <code>evaluate_state()</code></th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random</td>
+<td>no (seeded: yes)</td>
+<td>instant</td>
+<td>1</td>
+<td>partially (on result state)</td>
+<td>baseline; useful for smoke tests</td>
+</tr>
+<tr>
+<td>Minimax</td>
+<td>yes</td>
+<td>exponential in depth</td>
+<td>deep</td>
+<td>yes (leaf scoring)</td>
+<td>readable exhaustive tree</td>
+</tr>
+<tr>
+<td>Negamax</td>
+<td>yes</td>
+<td>exponential in depth</td>
+<td>deep</td>
+<td>yes (leaf scoring)</td>
+<td>same quality as minimax</td>
+</tr>
+<tr>
+<td>Alpha-Beta</td>
+<td>yes</td>
+<td>faster than minimax</td>
+<td>deep</td>
+<td>yes (leaf scoring)</td>
+<td>recommended for depth-limited play</td>
+</tr>
+<tr>
+<td>MCTS</td>
+<td>no (seeded: yes)</td>
+<td>linear in iterations</td>
+<td>1</td>
+<td>rollout fallback only</td>
+<td>stochastic; best for sampling</td>
+</tr>
+</tbody>
+</table>
+<p>Depth is measured in plies (half-moves). "Deep" means the engine propagates PV
+from the root to the depth cutoff. MCTS returns only the selected root move in
+its PV because its selection policy operates on tree statistics rather than a
+deterministic continuation.</p>
+<h2 id="defaults-at-a-glance">Defaults at a glance<a class="headerlink" href="#defaults-at-a-glance" title="Permanent link">&para;</a></h2>
+<p>Most frequently used defaults:</p>
+<ul>
+<li>CLI <code>suggest</code>/<code>play</code> with minimax, negamax, alphabeta: <code>depth=5</code></li>
+<li>CLI <code>suggest</code>/<code>play</code> with mcts: <code>iterations=800</code></li>
+<li>API <code>suggest_move(...)</code>: <code>depth=5</code>, <code>iterations=800</code></li>
+</ul>
+<p>For the full list (including module-level helpers), see
+<a href="#engine-defaults">Engine defaults</a>.</p>
+<h2 id="engine-contract">Engine contract<a class="headerlink" href="#engine-contract" title="Permanent link">&para;</a></h2>
+<p>All engines return an <code>EngineSuggestion</code> value with the following fields:</p>
+<ul>
+<li><code>engine</code>: engine identifier such as <code>"random"</code> or <code>"alphabeta"</code></li>
+<li><code>move</code>: the selected move as a <strong>0-based column index</strong></li>
+<li><code>pv</code>: principal variation, represented as a list of 0-based column indices</li>
+<li><code>evaluation</code>: a scalar score in the range <code>[-1.0, +1.0]</code></li>
+</ul>
+<p>PV depth differs by engine:</p>
+<ul>
+<li><code>minimax_suggestion()</code>, <code>negamax_suggestion()</code>, and <code>alphabeta_suggestion()</code>
+  build the PV by prepending each move to the best child PV at every recursive
+  level. The resulting <code>pv</code> therefore spans from the root move down to the depth
+  cutoff or a terminal state.</li>
+<li><code>random_suggestion()</code> and <code>mcts_suggestion()</code> return a one-element PV
+  containing only the selected root move. Neither performs a deterministic
+  recursive search that would produce a deeper continuation.</li>
+</ul>
+<p>In the CLI, these columns are displayed to humans as <code>1..7</code>. The internal API
+and tests continue to use 0-based columns.</p>
+<p>All public engine helpers (<code>random_suggestion</code>, <code>minimax_suggestion</code>,
+<code>negamax_suggestion</code>, <code>alphabeta_suggestion</code>, <code>mcts_suggestion</code>) treat the
+input <code>GameState</code> as read-only and compute on cloned states internally.</p>
+<p>Common validation behavior:</p>
+<ul>
+<li>if no legal moves exist, engines raise <code>ValueError("No legal moves")</code></li>
+<li>search limits must be positive (<code>depth &gt;= 1</code>, <code>iterations &gt;= 1</code>)</li>
+</ul>
+<h3 id="evaluation-semantics">Evaluation semantics<a class="headerlink" href="#evaluation-semantics" title="Permanent link">&para;</a></h3>
+<p>The score is normalized so it can be displayed consistently across engines:</p>
+<ul>
+<li><code>+1.0</code> means a winning result for Player 1</li>
+<li><code>-1.0</code> means a winning result for Player 2</li>
+<li>values near <code>0.0</code> mean the position is currently balanced or uncertain</li>
+</ul>
+<p>For tree-search engines, the score reflects the best line the engine found under
+its configured search limits. For MCTS, the value is the average rollout result
+of the selected child.</p>
+<h3 id="static-board-evaluation-evaluate_state">Static board evaluation: <code>evaluate_state()</code><a class="headerlink" href="#static-board-evaluation-evaluate_state" title="Permanent link">&para;</a></h3>
+<p>The shared heuristic lives in <code>four_in_a_row/game.py</code> as <code>evaluate_state()</code>.
+It is the main non-terminal position evaluator for the deterministic search
+engines.</p>
+<p>Engines use it as follows:</p>
+<ul>
+<li><code>random_suggestion()</code> applies one random move on a cloned state and then uses
+  <code>evaluate_state()</code> on that resulting position.</li>
+<li><code>minimax_suggestion()</code> uses <code>evaluate_state()</code> at depth cutoffs and on
+  terminal-or-draw short-circuit paths.</li>
+<li><code>alphabeta_suggestion()</code> uses the same evaluation approach as minimax, but
+  with pruning to reduce how often deeper branches need to be evaluated.</li>
+<li><code>negamax_suggestion()</code> also uses <code>evaluate_state()</code>, but multiplies it by a
+  side-to-move sign internally so the recurrence stays in negamax form.</li>
+<li><code>mcts_suggestion()</code> is different: its rollout quality signal comes primarily
+  from terminal win/loss outcomes via <code>terminal_score()</code>. It only uses
+  <code>evaluate_state()</code> in the documented fallback path when the root ends the
+  search without children.</li>
+</ul>
+<h4 id="what-the-heuristic-actually-measures">What the heuristic actually measures<a class="headerlink" href="#what-the-heuristic-actually-measures" title="Permanent link">&para;</a></h4>
+<p><code>evaluate_state()</code> first checks whether the state is already terminal:</p>
+<ul>
+<li>Player 1 win -&gt; <code>+1.0</code></li>
+<li>Player 2 win -&gt; <code>-1.0</code></li>
+<li>draw -&gt; <code>0.0</code></li>
+</ul>
+<p>For non-terminal states, it combines two lightweight heuristics.</p>
+<ol>
+<li>
+<p>Center-column preference.
+   The function counts how many Player 1 and Player 2 pieces are in the center
+   column and adds a small weighted bonus for the side that controls it.</p>
+</li>
+<li>
+<p>Open-line window scoring.
+   The function iterates over every horizontal, vertical, and diagonal 4-cell
+   window and scores only windows that are still "open" for one player.
+   Mixed windows containing pieces from both players contribute <code>0.0</code>.</p>
+</li>
+</ol>
+<p>Current window weights are:</p>
+<ul>
+<li><code>+0.12</code> for a Player 1 window with 3 stones and 1 empty cell</li>
+<li><code>+0.03</code> for a Player 1 window with 2 stones and 2 empty cells</li>
+<li><code>-0.12</code> for a Player 2 window with 3 stones and 1 empty cell</li>
+<li><code>-0.03</code> for a Player 2 window with 2 stones and 2 empty cells</li>
+</ul>
+<p>These weights were chosen by hand to balance threat assessment and are not
+empirical results from parameter tuning. Contributors who modify these values
+should re-run the engine tests to catch any regressions:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">uv</span> <span class="n">run</span> <span class="n">pytest</span> <span class="n">tests</span><span class="p">/</span><span class="n">test_engine_</span><span class="p">*.</span><span class="n">py</span> <span class="n">-v</span>
+</span></code></pre></div>
+<p>The final score is clamped into <code>[-1.0, +1.0]</code>.</p>
+<h4 id="why-center-matters-more-than-edges">Why center matters more than edges<a class="headerlink" href="#why-center-matters-more-than-edges" title="Permanent link">&para;</a></h4>
+<p>The implementation does not assign an explicit "corner penalty" or "edge
+penalty". Instead, the bias emerges from the features it counts:</p>
+<ul>
+<li>center control gets an explicit bonus</li>
+<li>central cells participate in more possible 4-in-a-row windows</li>
+<li>edge and corner cells usually participate in fewer winning lines</li>
+</ul>
+<p>As a result, edge and corner occupancy tends to be less valuable in this
+heuristic unless it directly contributes to strong open windows.</p>
+<h4 id="why-this-matters-for-engine-quality-and-speed">Why this matters for engine quality and speed<a class="headerlink" href="#why-this-matters-for-engine-quality-and-speed" title="Permanent link">&para;</a></h4>
+<p>The quality of minimax, negamax, and alpha-beta depends heavily on the quality
+of <code>evaluate_state()</code>, because depth-limited search relies on heuristic leaf
+scores whenever it cannot solve the position completely.</p>
+<p>The efficiency of those engines also depends strongly on evaluation cost:</p>
+<ul>
+<li>deeper searches call <code>evaluate_state()</code> many times</li>
+<li>alpha-beta reduces the number of visited nodes, but the remaining leaf
+  evaluations are still on the critical path</li>
+<li>even small changes in evaluation complexity can noticeably change practical
+  search depth and response time</li>
+</ul>
+<p>Because of that, <code>evaluate_state()</code> is a good target for profiling if engine
+performance or move quality becomes a priority. Both CPU time and allocation
+behavior are worth measuring, especially if additional heuristics are added.</p>
+<p>To collect a quick profiling snapshot, run:</p>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">uv</span> <span class="n">run</span> <span class="n">python</span> <span class="n">-m</span> <span class="n">cProfile</span> <span class="n">-s</span> <span class="n">cumtime</span> <span class="n">-c</span> <span class="s2">&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="s2">import four_in_a_row.game as g, four_in_a_row.ai_alphabeta as ab</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="s2">s = g.GameState.new(1)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="s2">ab.alphabeta_suggestion(s, depth=6)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="s2">&quot;</span>
+</span></code></pre></div>
+<p>This prints a cumulative-time profile sorted by the most expensive functions.
+Look for <code>evaluate_state</code> and <code>apply_move</code> in the output — those are the typical
+hotspots. Replace <code>ai_alphabeta</code> and <code>alphabeta_suggestion</code> with the engine you
+want to profile.</p>
+<h4 id="how-mcts-differs">How MCTS differs<a class="headerlink" href="#how-mcts-differs" title="Permanent link">&para;</a></h4>
+<p>MCTS is much less dependent on static board evaluation than the deterministic
+tree-search engines.</p>
+<ul>
+<li>Its selection phase uses UCB over accumulated rollout outcomes.</li>
+<li>Its simulation phase judges positions by eventually reaching terminal wins,
+  losses, or draws.</li>
+<li>Its backpropagation phase stores those rollout results as visit/value
+  statistics on nodes.</li>
+</ul>
+<p>So while deterministic engines judge many frontier states through
+<code>evaluate_state()</code>, MCTS derives most of its quality signal from terminal node
+results discovered by repeated playouts. In this codebase, that signal is based
+on <code>terminal_score()</code> rather than a deep static heuristic.</p>
+<h2 id="dispatch-entry-point">Dispatch entry point<a class="headerlink" href="#dispatch-entry-point" title="Permanent link">&para;</a></h2>
+<p>The public convenience API is <code>suggest_move(state, engine, ...)</code>.</p>
+<p><code>suggest_move()</code> and the top-level helper functions in <code>engines.py</code> delegate to
+the dedicated <code>ai_*</code> modules.</p>
+<p>Dispatch details currently implemented in <code>engines.py</code>:</p>
+<ul>
+<li><code>random</code> uses optional <code>rng</code></li>
+<li><code>minimax</code>, <code>negamax</code>, <code>alphabeta</code> use <code>depth</code></li>
+<li><code>mcts</code> uses <code>iterations</code> and optional <code>rng</code></li>
+<li><code>exploration</code> is configurable via <code>mcts_suggestion(...)</code> directly (not via
+  <code>suggest_move(...)</code>)</li>
+</ul>
+<p>Supported engine names:</p>
+<ul>
+<li><code>random</code></li>
+<li><code>minimax</code></li>
+<li><code>negamax</code></li>
+<li><code>alphabeta</code></li>
+<li><code>alpha-beta</code></li>
+<li><code>alpha_beta</code></li>
+<li><code>mcts</code></li>
+</ul>
+<p>Unknown names raise <code>ValueError</code>.</p>
+<p>The CLI help and command parser accept the same alpha-beta aliases.</p>
+<h2 id="engine-defaults">Engine defaults<a class="headerlink" href="#engine-defaults" title="Permanent link">&para;</a></h2>
+<p>The project uses the following default values:</p>
+<table>
+<thead>
+<tr>
+<th>API / Command path</th>
+<th>Default values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>suggest_move(..., depth=5, iterations=800)</code></td>
+<td><code>depth=5</code>, <code>iterations=800</code></td>
+</tr>
+<tr>
+<td><code>minimax_suggestion(state, depth=4)</code></td>
+<td><code>depth=4</code></td>
+</tr>
+<tr>
+<td><code>negamax_suggestion(state, depth=4)</code></td>
+<td><code>depth=4</code></td>
+</tr>
+<tr>
+<td><code>alphabeta_suggestion(state, depth=6)</code></td>
+<td><code>depth=6</code></td>
+</tr>
+<tr>
+<td><code>mcts_suggestion(state, iterations=500, exploration=sqrt(2))</code></td>
+<td><code>iterations=500</code>, <code>exploration=sqrt(2)</code></td>
+</tr>
+<tr>
+<td>CLI <code>suggest &lt;engine&gt; [v]</code> / <code>play &lt;engine&gt; [v]</code></td>
+<td><code>depth=5</code> for minimax/negamax/alphabeta, <code>iterations=800</code> for mcts</td>
+</tr>
+</tbody>
+</table>
+<p>This means the CLI intentionally uses slightly different default search limits
+than some direct module-level engine functions.</p>
+<h2 id="import-patterns">Import patterns<a class="headerlink" href="#import-patterns" title="Permanent link">&para;</a></h2>
+<p>You can import engine functionality from the package root:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">four_in_a_row</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  <span class="n">EngineSuggestion</span><span class="p">,</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  <span class="n">suggest_move</span><span class="p">,</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  <span class="n">random_suggestion</span><span class="p">,</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  <span class="n">minimax_suggestion</span><span class="p">,</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  <span class="n">negamax_suggestion</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="n">alphabeta_suggestion</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  <span class="n">mcts_suggestion</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>You can also import the split modules directly:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">four_in_a_row</span><span class="w"> </span><span class="kn">import</span> <span class="n">ai_random</span><span class="p">,</span> <span class="n">ai_minimax</span><span class="p">,</span> <span class="n">ai_negamax</span><span class="p">,</span> <span class="n">ai_alphabeta</span><span class="p">,</span> <span class="n">ai_mcts_ucb</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">suggestion</span> <span class="o">=</span> <span class="n">ai_minimax</span><span class="o">.</span><span class="n">minimax_suggestion</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</span></code></pre></div>
+<p>For reproducible tests with stochastic engines:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">four_in_a_row</span><span class="w"> </span><span class="kn">import</span> <span class="n">mcts_suggestion</span><span class="p">,</span> <span class="n">random_suggestion</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">random_pick</span> <span class="o">=</span> <span class="n">random_suggestion</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">mcts_pick</span> <span class="o">=</span> <span class="n">mcts_suggestion</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+</span></code></pre></div>
+<h2 id="per-engine-details">Per-engine details<a class="headerlink" href="#per-engine-details" title="Permanent link">&para;</a></h2>
+<p>Each engine has its own dedicated page covering search behavior, diagrams,
+validation rules, and tuning guidance:</p>
+<ul>
+<li><a href="engine_random.html">Random engine</a> — instant, stochastic baseline</li>
+<li><a href="engine_minimax.html">Minimax engine</a> — exhaustive depth-limited tree search</li>
+<li><a href="engine_negamax.html">Negamax engine</a> — minimax-equivalent with score negation; includes Minimax vs Negamax comparison and benchmark</li>
+<li><a href="engine_alphabeta.html">Alpha-Beta engine</a> — minimax with branch pruning</li>
+<li><a href="engine_mcts.html">Monte Carlo Tree Search (MCTS)</a> — UCB-guided sampling with full UCB math and tuning guidance</li>
+</ul>
+<h2 id="determinism-and-testing">Determinism and testing<a class="headerlink" href="#determinism-and-testing" title="Permanent link">&para;</a></h2>
+<p>The test suite covers the core contract of all engines.</p>
+<p>Verified behaviors include:</p>
+<ul>
+<li>random suggestions are legal and return a one-step PV</li>
+<li>minimax finds an immediate win in a known winning position</li>
+<li>negamax finds an immediate win in the same known winning position</li>
+<li>alpha-beta finds the same immediate win</li>
+<li>MCTS returns a legal move and bounded evaluation</li>
+<li>dispatch through <code>suggest_move()</code> works for all registered engines</li>
+<li>invalid search parameters raise <code>ValueError</code></li>
+<li>requesting a move from a full board raises <code>ValueError</code></li>
+</ul>
+<p>Where randomness is involved, the tests inject seeded RNG instances so results
+remain reproducible.</p>
+<h2 id="performance-notes">Performance notes<a class="headerlink" href="#performance-notes" title="Permanent link">&para;</a></h2>
+<p>The engines are intentionally simple and readable.</p>
+<ul>
+<li><strong>Random</strong> is constant-cost relative to legal move count</li>
+<li><strong>Minimax</strong> grows exponentially with depth</li>
+<li><strong>Negamax</strong> has the same asymptotic complexity as minimax</li>
+<li><strong>Alpha-Beta</strong> improves on minimax by pruning branches</li>
+<li><strong>MCTS</strong> trades exact tree evaluation for repeated randomized sampling</li>
+</ul>
+<p>For interactive usage:</p>
+<ul>
+<li>choose <code>random</code> for instant output</li>
+<li>choose <code>minimax</code> for simple deterministic analysis at small depths</li>
+<li>choose <code>negamax</code> if you want minimax-equivalent behavior with simpler
+  recursion structure</li>
+<li>choose <code>alphabeta</code> for deeper deterministic search</li>
+<li>choose <code>mcts</code> when you want probabilistic search guided by many playouts</li>
+</ul>
+<h3 id="rough-performance-rules-of-thumb">Rough performance rules of thumb<a class="headerlink" href="#rough-performance-rules-of-thumb" title="Permanent link">&para;</a></h3>
+<p><strong>MCTS iteration budget vs. search depth:</strong></p>
+<p>Applied to Four in a Row:</p>
+<ul>
+<li><code>depth=4</code> (minimax/negamax/alphabeta) typically explores ~5,000–50,000 nodes</li>
+<li><code>iterations=500</code> (MCTS) typically explores ~500–2,000 nodes but with rollout
+  value refinement</li>
+<li>the CLI defaults use <code>depth=5</code> for deterministic engines and <code>iterations=800</code>
+  for MCTS, giving broadly similar response time on typical hardware</li>
+</ul>
+<p>When tuning the iteration budget for MCTS, start with 500 and increase in steps
+of 200–500 until the response time feels right for your use case.</p>
+<h2 id="user-facing-interpretation">User-facing interpretation<a class="headerlink" href="#user-facing-interpretation" title="Permanent link">&para;</a></h2>
+<p>When the CLI displays a suggested move, keep these points in mind:</p>
+<ul>
+<li>the move is shown using the game's internal 0-based column model before any
+  CLI-specific formatting</li>
+<li>the PV is an explanation of the line the engine prefers</li>
+<li>the evaluation is an AI estimate, not a proof of optimal play unless a search fully
+  resolves the relevant portion of the game tree</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":".","features":["navigation.sections","navigation.path","navigation.top","toc.follow"],"search":"./assets/javascripts/workers/search.e2d2d235.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="./assets/javascripts/bundle.9f55f5b1.min.js"></script>
+      
+    
+  </body>
+</html>

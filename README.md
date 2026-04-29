@@ -1,112 +1,136 @@
-# py-four-in-a-row
+# Four in a Row
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
+[![Python Version](https://img.shields.io/badge/python-3.13%2B-blue.svg)](https://www.python.org/)
+[![JavaScript](https://img.shields.io/badge/javascript-ES%20Modules-f7df1e.svg?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![HTML5](https://img.shields.io/badge/html5-browser%20app-e34f26.svg?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Glossary/HTML5)
+
 [![Pytest](https://img.shields.io/badge/tested%20with-pytest-blue.svg)](https://docs.pytest.org/)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://pypi.org/project/pytest-cov/)
+[![Vitest](https://img.shields.io/badge/tested%20with-vitest-6e9f18.svg?logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Playwright](https://img.shields.io/badge/e2e-playwright-45ba63.svg?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![GUI Coverage](https://img.shields.io/badge/gui%20coverage-100%25-brightgreen.svg)](https://pypi.org/project/pytest-cov/)
+
 [![UV](https://img.shields.io/badge/managed%20by-uv-purple.svg)](https://github.com/astral-sh/uv)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-A modular Python implementation of the classic Four in a Row (Connect Four) game, featuring both human and AI players. The AI uses Upper Confidence bounds applied to Trees (UCT) Monte Carlo Tree Search (MCTS) for competitive gameplay.
+This repository contains two playable implementations of Four in a Row (Connect Four):
 
-----
+- a Python application with CLI and GUI front ends
+- an HTML5/JavaScript browser version with an MCTS-based AI
 
-## Quick Start
+Both versions implement the classic 7x6 game and focus on clear engine structure,
+testability, and documented architecture.
 
-```bash
-...$ git clone https://github.com/OMerkel/py_four_in_a_row
-...$ cd py_four_in_a_row
-...$ python -m venv .venv
-...$ source .venv/bin/activate
-...$ pip install -r requirements.txt
-...$ uv sync
-...$ uv run ./py_four_in_a_row.py
+## Repository Overview
+
+### Python
+
+Path: `python/`
+
+Highlights:
+
+- command-line interface for human and engine-driven play
+- graphical interface built with `matplotlib`
+- multiple AI engines: random, minimax, negamax, alpha-beta, MCTS with UCB
+- SGF import/export support
+- pytest-based test suite
+
+Quick start:
+
+```powershell
+cd python
+uv sync --dev
+uv run python -m four_in_a_row
 ```
 
-----
+Launch the GUI:
 
-## Features
+```powershell
+cd python
+uv run python -m four_in_a_row.gui
+```
 
-- Play against a human or AI opponent
-- AI uses UCT MCTS for move selection
-- Modular, extensible architecture
-- Unit tests for core logic
-- Easy configuration for board size, player types, and AI strength
+Run tests:
 
-----
+```powershell
+cd python
+uv run pytest
+```
 
-## Directory Structure
+See [python/README.md](python/README.md) for commands, engine options, GUI usage,
+and test details.
+
+### HTML5 / JavaScript
+
+Path: `javascript/html5/src/`
+
+Highlights:
+
+- browser-based Connect Four with responsive board rendering
+- independent human/AI configuration for both players
+- AI powered by UCT / MCTS in a Web Worker
+- unit tests with Vitest and end-to-end tests with Playwright
+
+Quick start:
+
+```powershell
+cd javascript/html5/src
+npm install
+node tests/server.js
+```
+
+Then open `http://localhost:4173` in a browser.
+
+Run tests:
+
+```powershell
+cd javascript/html5/src
+npm test
+npm run test:e2e
+```
+
+See [javascript/html5/src/README.md](javascript/html5/src/README.md) for browser,
+testing, and architecture details.
+
+## Project Structure
 
 ```text
-py_four_in_a_row/
-├── py_four_in_a_row.py            # Main entry point
-├── pyproject.toml                 # Project configuration
-├── requirements.txt               # Python dependencies
-├── AUTHORS                        # Contributors with non-trivial changes
-├── CHANGELOG.md                   # Project Change Log
-├── LICENSE.txt                    # MIT License text
-├── README.md                      # Project overview
-├── doc/
-│   └── software_architecture.md   # Architecture documentation
-├── engines/
-│   ├── abstract_player.py         # Abstract player interface
-│   ├── ai_player_random.py        # AI player (Random Choice)
-│   ├── ai_player_uct_mcts.py      # AI player (UCT MCTS)
-│   └── human_player.py            # Human player implementation
-├── modules/
-│   └── board.py                   # Board logic
-└── test/
-    ├── test_ai_player_random.py   # Tests for AI Player Random
-    ├── test_ai_player_uct_mcts.py # Tests for AI Player UCT MCTS
-    ├── test_board.py              # Board unit tests
-    ├── test_human_player.py       # HumanPlayer unit tests
-    └── test_py_four_in_a_row.py   # Main game tests 
+four_in_a_row/
+├── README.md
+├── python/
+│   ├── four_in_a_row/
+│   ├── tests/
+│   └── doc/
+└── javascript/
+    └── html5/
+        └── src/
+            ├── js/
+            ├── tests/
+            └── doc/
 ```
-
-----
-
-## How to Play
-
-Run the main script and follow the prompts to set up players and start the game.
-Leave the player names empty to activate AI players.
-You can configure player types and AI strength in `py_four_in_a_row.py`.
-
-----
-
-## How to Test
-
-```bash
-...$ pytest
-```
-
-More sophisticated with Test Coverage measurement:
-
-```bash
-...$ pytest --rootdir=. --cov=. --cov-branch
-```
-
-----
 
 ## Documentation
 
-See [`doc/software_architecture.md`](doc/software_architecture.md) for a detailed overview of the architecture and design.
+Repository documentation is organized per implementation:
 
-----
+- Python engine and architecture docs: `python/doc/`
+- HTML5 engine and architecture docs: `javascript/html5/src/doc/`
+
+Generated site output for the Python documentation is committed under `python/site/`.
+
+## Requirements
+
+- Python version: 3.13+
+- Python package manager: `uv`
+- Node.js and npm for the browser version
+
+On some Windows systems, `node` may resolve to Microsoft HPC tools instead of
+Node.js. If that happens, prepend `C:\Program Files\nodejs` to `PATH` before
+running npm-based commands.
+
+## Authors
+
+See the `AUTHORS` files at the repository root and within each implementation.
 
 ## License
 
-This project is licensed under the terms of the MIT [LICENSE.txt](LICENSE.txt) file.
-
-----
-
-## Contact
-
-For questions or contributions, please open an issue or pull request on GitHub.
-
-----
-
-## Further Reading
-
-- [Monte Carlo Tree Search (Wikipedia)](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)
-- [Connect Four Strategy](https://en.wikipedia.org/wiki/Connect_Four#Strategy)
-
-----
+This repository is licensed under the terms in [LICENSE](LICENSE).

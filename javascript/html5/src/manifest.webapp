@@ -1,0 +1,23 @@
+{
+  "version": "0.7",
+  "name": "Connect 4",
+  "description": "Connect 4 with UCT AI",
+  "launch_path": "/index.html",
+  "orientation": "landscape-primary",
+  "icons": {
+    "16": "/img/icons/connect416.png",
+    "32": "/img/icons/connect432.png",
+    "48": "/img/icons/connect448.png",
+    "60": "/img/icons/connect460.png",
+    "64": "/img/icons/connect464.png",
+    "90": "/img/icons/connect490.png",
+    "120": "/img/icons/connect4120.png",
+    "128": "/img/icons/connect4128.png",
+    "256": "/img/icons/connect4256.png"
+  },
+  "developer": {
+    "name": "Oliver Merkel",
+    "url": "https://github.com/OMerkel/four_in_a_row_js"
+  },
+  "installs_allowed_from": ["*"]
+}

@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="icon" href="img/icons/favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="img/icons/connect4128.png" />
+  <meta name="AUTHOR" content="Oliver Merkel" />
+  <meta name="COPYRIGHT" content="Oliver Merkel" />
+  <title>Connect 4</title>
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <header id="app-header">
+    <button id="btn-menu" class="icon-btn" type="button" aria-label="Open menu" aria-controls="side-panel">
+      <img src="img/icons/icon-bars.svg" alt="" />
+    </button>
+    <span id="app-header-title">Connect 4</span>
+    <span id="app-header-badge" aria-label="AI difficulty" aria-live="polite">R human | Y human | Desktop</span>
+  </header>
+
+  <main id="app-content">
+    <section id="view-game" class="view">
+      <noscript>
+        <p>This application requires JavaScript. Please enable it in your browser settings.</p>
+      </noscript>
+      <div id="board"></div>
+    </section>
+
+    <section id="view-rules" class="view view-section" hidden>
+      <h2>Rules</h2>
+
+      <p><b>Connect 4</b> is a two-player alignment game played on a vertical 7x6 board.</p>
+
+      <details>
+        <summary>Goal</summary>
+        <div>
+          <p>Be the first to create a line of four pieces of your color.</p>
+          <p>Lines can be horizontal, vertical, or diagonal.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Turn Sequence</summary>
+        <div>
+          <ol>
+            <li>Choose one of the seven columns.</li>
+            <li>Your piece falls to the lowest empty slot in that column.</li>
+            <li>Players alternate turns until someone has four in a row or the board is full.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary>Draws and End of Game</summary>
+        <div>
+          <p>If all slots are filled and no line of four exists, the game is a draw.</p>
+          <p>When a game ends, open the menu and choose <b>New Game</b> to start again.</p>
+        </div>
+      </details>
+
+      <button class="btn btn-back" type="button">&#8592; Back</button>
+    </section>
+
+    <section id="view-options" class="view view-section" hidden>
+      <h2>Options</h2>
+      <p class="hint-text">Changes take effect immediately on AI turns and on new games.</p>
+      <form class="options-form" id="options-form">
+        <fieldset>
+          <legend>Red player is...</legend>
+          <label><input type="radio" name="firstplayer" value="Human" checked />Human</label>
+          <label><input type="radio" name="firstplayer" value="AI" />AI</label>
+        </fieldset>
+        <fieldset>
+          <legend>Yellow player is...</legend>
+          <label><input type="radio" name="secondplayer" value="Human" checked />Human</label>
+          <label><input type="radio" name="secondplayer" value="AI" />AI</label>
+        </fieldset>
+        <fieldset>
+          <legend>Red AI difficulty</legend>
+          <label><input type="radio" name="difficultysouth" value="Easy" />Easy</label>
+          <label><input type="radio" name="difficultysouth" value="Medium" checked />Medium</label>
+          <label><input type="radio" name="difficultysouth" value="Hard" />Hard</label>
+        </fieldset>
+        <fieldset>
+          <legend>Yellow AI difficulty</legend>
+          <label><input type="radio" name="difficultynorth" value="Easy" />Easy</label>
+          <label><input type="radio" name="difficultynorth" value="Medium" checked />Medium</label>
+          <label><input type="radio" name="difficultynorth" value="Hard" />Hard</label>
+        </fieldset>
+        <fieldset>
+          <legend>AI device profile</legend>
+          <label><input type="radio" name="deviceprofile" value="Auto" checked />Auto (detect)</label>
+          <label><input type="radio" name="deviceprofile" value="Desktop" />Desktop</label>
+          <label><input type="radio" name="deviceprofile" value="Mobile" />Mobile</label>
+        </fieldset>
+        <p class="hint-text" id="device-profile-hint">Auto currently resolves to Desktop.</p>
+      </form>
+      <button class="btn" id="btn-options-ok" type="button">OK</button>
+    </section>
+
+    <section id="view-about" class="view view-section" hidden>
+      <h2>About Connect 4</h2>
+
+      <h3>Legal</h3>
+      <figure class="diagram" style="float:right;margin-left:12px;width:35%;">
+        <img src="img/oliver_signal_colors_66.jpg" alt="Oliver Merkel" />
+        <figcaption>
+          Oliver Merkel,
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">cc-by-nc-nd 4.0</a>.
+        </figcaption>
+      </figure>
+      <p>
+        Copyright &copy; 2016, 2026<br />
+        <em>@author</em> Oliver Merkel, Merkel(dot)Oliver(at)web(dot)de.<br />
+        All rights reserved. Logos, brands, and trademarks belong to their respective owners.
+      </p>
+      <p>All source code (HTML, JavaScript, CSS) is released under the <strong>MIT License</strong>.</p>
+      <p>
+        Images are licensed under
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0" target="_blank">
+          Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+        </a>.
+      </p>
+
+      <details>
+        <summary>Third-party Code Licenses</summary>
+        <div>
+          <p>This version uses <strong>no third-party libraries</strong>.</p>
+          <p>The AI engine uses the UCT / MCTS algorithm.</p>
+        </div>
+      </details>
+
+      <button class="btn btn-back" type="button">&#8592; Back</button>
+    </section>
+  </main>
+
+</div>
+
+<div id="panel-overlay" hidden></div>
+
+<nav id="side-panel" aria-label="Main navigation">
+  <p class="panel-title">Connect 4</p>
+  <ul class="panel-nav">
+    <li><button id="btn-panel-close" type="button">&#10005; Close</button></li>
+    <li class="panel-divider" aria-orientation="horizontal"></li>
+    <li><button id="nav-new" type="button">&#9654; New Game</button></li>
+    <li class="panel-divider" aria-orientation="horizontal"></li>
+    <li><button id="nav-rules" type="button">Rules&hellip;</button></li>
+    <li><button id="nav-options" type="button">Options&hellip;</button></li>
+    <li><button id="nav-about" type="button">About&hellip;</button></li>
+  </ul>
+</nav>
+
+<script type="module" src="js/hmi.js"></script>
+
+</body>
+</html>
