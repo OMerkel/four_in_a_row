@@ -1,0 +1,3 @@
+# Ignore generated and third-party directories
+**/node_modules/
+python/site/
