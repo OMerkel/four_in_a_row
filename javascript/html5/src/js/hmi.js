@@ -252,6 +252,15 @@ const wireUI = () => {
 // Bootstrap
 // ---------------------------------------------------------------------------
 
+// Register Service Worker for PWA functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch((error) => {
+      console.log('Service Worker registration failed:', error);
+    });
+  });
+}
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', wireUI);
 } else {

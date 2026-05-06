@@ -18,6 +18,7 @@ This project is fully browser-based, uses modern ES modules, and has no runtime 
 - Full test suite:
   - Unit tests (Vitest) for board logic and UCT engine.
   - End-to-end tests (Playwright) for gameplay and UI flows.
+- PWA (Progressive Web App) install support
 
 ---
 
@@ -69,6 +70,55 @@ src/
 ---
 
 ## Getting Started
+
+### Play online
+
+- [Play Four in a Row online](https://omerkel.github.io/four_in_a_row/javascript/html5/src/)
+
+### PWA - Progressive Web App
+
+This app is a **Progressive Web App (PWA)**, which means you can install it on your device for an app-like experience.
+
+#### Install on Your Device
+
+**Desktop (Windows, macOS, Linux):**
+
+1. Open the app in a modern browser (Chrome, Edge, Brave, etc.)
+2. Look for an **install icon** in the address bar (may appear as a download icon or app icon)
+3. Click it and confirm installation
+4. The app will open in its own window, independent of the browser
+
+**Mobile (iOS, Android):**
+
+*Android:*
+
+1. Open the app in Chrome, Edge, or Samsung Internet
+2. Tap the **menu** (three dots) → **Install app** (or similar)
+3. Confirm the installation
+4. The app appears on your home screen as an icon
+
+*iOS:*
+
+1. Open the app in Safari
+2. Tap the **Share** button at the bottom
+3. Select **Add to Home Screen**
+4. Choose a name and tap **Add**
+5. The app appears on your home screen
+
+#### PWA Features
+
+Once installed, you get:
+
+- **Offline Play** – Play games without an internet connection
+- **Fast Loading** – Cached assets load instantly
+- **Standalone App** – Runs like a native app (no address bar)
+- **Custom Icon** – Appears on your device with the game icon
+- **Themed UI** – Matches the app's color scheme
+
+#### PWA Requirements
+
+- A modern browser supporting service workers (Chrome, Edge, Firefox, Safari 11+)
+- HTTPS connection (or localhost for development)
 
 ### Prerequisites
 
