@@ -1,94 +1,151 @@
 // Service Worker for Connect 4 PWA
-const CACHE_NAME = 'connect4-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/css/index.css',
-  '/js/hmi.js',
-  '/js/board.js',
-  '/js/common.js',
-  '/js/controller.js',
-  '/js/renderer.js',
-  '/js/store.js',
-  '/js/uct/uct.js',
-  '/img/icons/favicon.ico',
-  '/img/icons/connect4128.png',
-  '/img/icons/icon-bars.svg',
-  '/manifest.json'
+const CACHE_NAME = 'connect4-v2';
+const PRECACHE_ASSETS = [
+  '.',
+  'index.html',
+  'manifest.json',
+  'css/index.css',
+  'js/hmi.js',
+  'js/board.js',
+  'js/common.js',
+  'js/controller.js',
+  'js/renderer.js',
+  'js/store.js',
+  'js/uct/uct.js',
+  'img/icons/favicon.ico',
+  'img/icons/connect4128.png',
+  'img/icons/icon-bars.svg',
+  'img/oliver_signal_colors_66.jpg'
 ];
+
+const INDEX_URL = new URL('index.html', self.registration.scope).toString();
+
+const isCacheableResponse = (response) => {
+  return response && response.ok && response.type !== 'error';
+};
+
+const normalizeManifestAssetPath = (value) => {
+  if (typeof value !== 'string' || value.trim() === '') {
+    return null;
+  }
+  const scoped = new URL(value, self.registration.scope);
+  if (scoped.origin !== self.location.origin) {
+    return null;
+  }
+  return `${scoped.pathname}${scoped.search}`;
+};
+
+const getManifestAssetRequests = async () => {
+  try {
+    const response = await fetch('manifest.json', { cache: 'no-store' });
+    if (!isCacheableResponse(response)) {
+      return [];
+    }
+
+    const manifest = await response.json();
+    const iconSources = Array.isArray(manifest.icons)
+      ? manifest.icons.map((icon) => icon?.src)
+      : [];
+    const screenshotSources = Array.isArray(manifest.screenshots)
+      ? manifest.screenshots.map((shot) => shot?.src)
+      : [];
+    const shortcutIconSources = Array.isArray(manifest.shortcuts)
+      ? manifest.shortcuts.flatMap((shortcut) => (shortcut?.icons ?? []).map((icon) => icon?.src))
+      : [];
+
+    const manifestAssets = [...iconSources, ...screenshotSources, ...shortcutIconSources]
+      .map(normalizeManifestAssetPath)
+      .filter((path) => Boolean(path));
+
+    return [...new Set(manifestAssets)].map((asset) => new Request(asset, { cache: 'reload' }));
+  } catch {
+    return [];
+  }
+};
 
 // Install Service Worker
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(urlsToCache).catch((error) => {
-          console.warn('Cache addAll error:', error);
-          // Continue even if some assets fail to cache
-          return Promise.resolve();
-        });
-      })
-      .catch((error) => {
-        console.warn('Service Worker install error:', error);
-      })
-  );
-  self.skipWaiting();
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const shellRequests = PRECACHE_ASSETS.map((asset) => new Request(asset, { cache: 'reload' }));
+    await cache.addAll(shellRequests);
+
+    // Manifest media is additive and should not block app-shell installation.
+    const manifestRequests = await getManifestAssetRequests();
+    if (manifestRequests.length > 0) {
+      await Promise.allSettled(
+        manifestRequests.map(async (request) => {
+          const response = await fetch(request);
+          if (isCacheableResponse(response)) {
+            await cache.put(request, response);
+          }
+        })
+      );
+    }
+
+    await self.skipWaiting();
+  })());
 });
 
 // Activate Service Worker
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim();
+  event.waitUntil((async () => {
+    const cacheNames = await caches.keys();
+    await Promise.all(
+      cacheNames
+        .filter((cacheName) => cacheName !== CACHE_NAME)
+        .map((cacheName) => caches.delete(cacheName))
+    );
+    await self.clients.claim();
+  })());
 });
 
-// Fetch event - Cache first, fallback to network
+// Fetch event
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
   if (event.request.method !== 'GET') {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+  const requestURL = new URL(event.request.url);
+  const isSameOrigin = requestURL.origin === self.location.origin;
+
+  // Use network-first for navigations to keep HTML fresh, fallback to cached shell offline.
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const networkResponse = await fetch(event.request);
+        if (isCacheableResponse(networkResponse)) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(event.request, networkResponse.clone());
         }
-
-        return fetch(event.request).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type === 'error') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
-      })
-      .catch(() => {
-        // Offline fallback - try to return index.html for navigation requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
+        return networkResponse;
+      } catch {
+        const cachedPage = await caches.match(event.request);
+        if (cachedPage) {
+          return cachedPage;
         }
-        return null;
-      })
-  );
+        return caches.match(INDEX_URL);
+      }
+    })());
+    return;
+  }
+
+  // Cache-first strategy for same-origin assets.
+  if (!isSameOrigin) {
+    return;
+  }
+
+  event.respondWith((async () => {
+    const cached = await caches.match(event.request);
+    if (cached) {
+      return cached;
+    }
+
+    const networkResponse = await fetch(event.request);
+    if (isCacheableResponse(networkResponse)) {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.put(event.request, networkResponse.clone());
+    }
+    return networkResponse;
+  })());
 });

@@ -115,6 +115,34 @@ Once installed, you get:
 - **Custom Icon** – Appears on your device with the game icon
 - **Themed UI** – Matches the app's color scheme
 
+#### PWA Caching Strategy
+
+The service worker in `sw.js` uses a two-layer cache model:
+
+- **Strict app-shell precache at install time**
+  - Core files (HTML, CSS, JS, manifest, and key UI assets) must cache successfully.
+  - If app-shell precache fails, service worker install fails instead of silently succeeding.
+- **Manifest-driven media precache**
+  - Icons and screenshots listed in `manifest.json` are discovered and cached automatically.
+  - This media step is additive and non-blocking, so shell reliability is prioritized.
+
+Runtime fetch behavior:
+
+- **Navigation requests** (`mode === "navigate"`): network-first, then cached page, then cached app shell.
+- **Same-origin static assets**: cache-first with network fill.
+
+This combination improves reliability on mobile installs while still keeping HTML reasonably fresh.
+
+#### Verifying Mobile Offline Install
+
+1. Open the app while online and wait for initial load to finish.
+2. Install to home screen.
+3. Re-open the installed app once online to let the latest service worker activate.
+4. Disable network (Airplane mode) and launch again.
+5. Confirm board UI, icons, and gameplay still load.
+
+If you previously installed an older build, clear site storage/uninstall and reinstall once.
+
 #### PWA Requirements
 
 - A modern browser supporting service workers (Chrome, Edge, Firefox, Safari 11+)
@@ -239,6 +267,12 @@ Detailed architecture is documented in:
 ---
 
 ## Troubleshooting
+
+### PWA assets are not cached after install
+
+- Open the app online at least once after deployment so the latest service worker can install.
+- If device storage contains an old service worker version, uninstall/reinstall the PWA.
+- Confirm your hosting path and PWA scope match; this app uses scope-safe relative cache URLs.
 
 ### `node` command opens Microsoft HPC help instead of Node.js
 

@@ -164,6 +164,17 @@ Main-thread composition module.
 - Reads options and sends settings to worker.
 - Dispatches worker events into store.
 - Maintains header side-specific difficulty badge from store settings.
+- Registers the service worker (`sw.js`) after window load.
+
+### `sw.js`
+
+Service worker for PWA install/offline support.
+
+- Uses a versioned cache (`connect4-v2`).
+- Pre-caches a strict app shell at install time.
+- Reads `manifest.json` and additionally caches icon/screenshot assets listed there.
+- Uses network-first for navigation requests and cache-first for same-origin static assets.
+- Falls back to cached app shell (`index.html`) when offline navigation cannot hit network.
 
 ### Worker events and store actions
 
@@ -190,7 +201,20 @@ Reducer actions in `js/store.js`:
 Worker is the single writer for board state.
 Main thread consumes snapshots broadcast by worker.
 
-## 6. Testing
+## 6. PWA and Offline Model
+
+- Service worker registration lives in `js/hmi.js` and installs `sw.js`.
+- Install flow:
+  - Cache required shell assets (`index.html`, CSS, JS, manifest, core icons).
+  - Attempt manifest-driven icon/screenshot caching as an additive pass.
+- Activate flow:
+  - Delete outdated cache versions.
+  - Claim clients so updates apply quickly.
+- Fetch flow:
+  - Navigation: network-first with cached fallback.
+  - Same-origin assets: cache-first with runtime cache population.
+
+## 7. Testing
 
 - Unit tests: `tests/unit/*.test.js`
   - Board rule behavior
@@ -201,7 +225,7 @@ Main thread consumes snapshots broadcast by worker.
   - Interactive move flow
   - Accessibility smoke checks
 
-## 7. Folder Structure
+## 8. Folder Structure
 
 ```text
 src/
